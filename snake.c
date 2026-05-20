@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "snake.h"
 
 
@@ -14,7 +15,7 @@ SnakeSegment* createSnakeSegment(int X, int Y){
 
 }
 
-SnakeBody* initializeSnake(int TAIL_START_X, int TAIL_START_Y, int HEAD_START_X, int HEAD_START_Y, DIRECTION){
+SnakeBody* initializeSnake(int TAIL_START_X, int TAIL_START_Y, int HEAD_START_X, int HEAD_START_Y, DIRECTION dir){
 
 	SnakeBody *body = malloc(sizeof(SnakeBody));
 
@@ -26,6 +27,8 @@ SnakeBody* initializeSnake(int TAIL_START_X, int TAIL_START_Y, int HEAD_START_X,
 	body->head = head;
 	body->tail = tail;
 
+	body->dir = dir;
+
 	return body;
 }
 
@@ -33,7 +36,15 @@ void addHead(SnakeBody *body){
 
 	DIRECTION dir = body->dir;
 
+	// allocating the memory for a new head, handling case if program runs out of heap, tho it would never happen as this game uses only so much memory
 	SnakeSegment *NewHead = malloc(sizeof(SnakeSegment));
+
+	if (NewHead == NULL) {
+        // Handle the error gracefully instead of crashing
+        fprintf(stderr, "Error: Out of memory!\n");
+        exit(1); 
+    }
+
 	SnakeSegment *OldHead = body->head;
 
 	NewHead->next = OldHead;
@@ -42,11 +53,11 @@ void addHead(SnakeBody *body){
 	switch (dir){
 		// up / down
 		case UP: 
-			NewHead->posY = OldHead->posY+1;
+			NewHead->posY = OldHead->posY-1;
 			NewHead->posX = OldHead->posX;
 			break;
 		case DOWN: 
-			NewHead->posY = OldHead->posY-1;
+			NewHead->posY = OldHead->posY+1;
 			NewHead->posX = OldHead->posX;
 			break;
 		// left / right

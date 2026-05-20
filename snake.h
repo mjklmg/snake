@@ -21,7 +21,7 @@ typedef struct SnakeBody{
 
 SnakeSegment* createSnakeSegment(int X, int Y);
 
-SnakeBody* initializeSnake(int TAIL_START_X, int TAIL_START_Y, int HEAD_START_X, int HEAD_START_Y, DIRECTION);
+SnakeBody* initializeSnake(int TAIL_START_X, int TAIL_START_Y, int HEAD_START_X, int HEAD_START_Y, DIRECTION dir);
 
 void addHead(SnakeBody *body);
 

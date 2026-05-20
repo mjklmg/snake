@@ -1,5 +1,5 @@
-#include "snake.h"
 #include <stdbool.h>
+#include "snake.h"
 
 _Bool isDirectionLegal(SnakeBody *body, DIRECTION inputDir){
 

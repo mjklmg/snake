@@ -1,11 +1,14 @@
 #ifndef RENDER_H
 
-#include "ncurses.h"
+#include <ncurses.h>
 #include "snake.h"
 
-#define REDNER_H
+#define RENDER_H
 
-WINDOW* InitWindow(int WinHeight, int WinWidth, int WinStartY, int WinStartX);
-void DrawSnake(SnakeBody *snakeBody, WINDOW *win);
+WINDOW* initWindow(int WinHeight, int WinWidth, int WinStartY, int WinStartX);
+
+void clearWindow(WINDOW *win);
+
+void drawSnake(SnakeBody *snakeBody, WINDOW *win);
 
 #endif

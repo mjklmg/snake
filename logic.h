@@ -2,8 +2,8 @@
 #define LOGIC_H
 
 
-#include "snake.h"
 #include <stdbool.h>
+#include "snake.h"
 
 // checks if the direction is legal, e. g. u cannot move LEFT while moving RIGHT
 _Bool isDirectionLegal(SnakeBody *body, DIRECTION inputDir);

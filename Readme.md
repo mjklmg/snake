@@ -9,9 +9,9 @@ ncurses library
 
 ## Instalation
 
-'
+```
 ~ git clone https://mjklmg/snake
 ~ cd snake
 ~ make
 ~ ./snake
-'
+```

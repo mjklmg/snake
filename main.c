@@ -51,7 +51,7 @@ int main(){
 
 		DIRECTION dir = inputDirection(body);
 
-		moveSnake(body, dir);
+		moveSnake(body, dir, didSnakeEat(&apple, body, WIN_HEIGHT, WIN_WIDHT));
 
 		drawSnake(body, win);
 

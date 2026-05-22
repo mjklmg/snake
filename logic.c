@@ -38,12 +38,15 @@ _Bool isDirectionLegal(SnakeBody *body, DIRECTION inputDir){
 	return true;
 }
 
-void moveSnake(SnakeBody *body, DIRECTION inputDir){
+void moveSnake(SnakeBody *body, DIRECTION inputDir, _Bool didSnakeEat){
 
 	body->dir = inputDir;
 
 	addHead(body);
-	deleteTail(body);
+
+	if (!didSnakeEat){
+		deleteTail(body);
+	}
 }
 
 _Bool touchedBorder(SnakeBody *body, int boardHeight, int boardWidth ){
@@ -143,4 +146,23 @@ Apple* initApple(int boardHeight, int boardWidth, SnakeBody *body){
 	apple->posY = appleY;
 
 	return apple;
+}
+
+// we will check if snake has eaten so we can decide if we delete tail this tick or not
+// by usuing value of this funtion as an argument to moveSnake()
+// double pointer to apple so u can initalize new apple after eating one
+_Bool didSnakeEat(Apple **apple, SnakeBody *body, int boardHeight, int boardWidth){
+
+	int appleX = (*apple)->posX;
+	int appleY = (*apple)->posY;
+
+	int snakeHeadX = body->head->posX;
+	int snakeHeadY = body->head->posY;
+
+	if (isAppleOnSnake(appleX, appleY, snakeHeadX, snakeHeadY)){
+		*apple = initApple(boardHeight, boardWidth, body);
+		return true;
+	}
+
+	return false;
 }

@@ -17,7 +17,7 @@
 #define WIN_HEIGHT 22
 #define WIN_WIDHT 22
 
-void freeGame(SnakeBody *body){
+void freeGame(SnakeBody *body, Apple *apple){
 	SnakeSegment *segment = body->head;
 
 	while (segment){
@@ -26,6 +26,7 @@ void freeGame(SnakeBody *body){
 		free(current);
 	}
 	free(body);
+	free(apple);
 }
 
 int main(){
@@ -62,10 +63,9 @@ int main(){
 	}	
 
 	//feeing memory
-	freeGame(body);
+	freeGame(body, apple);
 	delwin(win);
 	endwin();
 
 	return 0;
-
 }

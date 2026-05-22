@@ -117,6 +117,7 @@ DIRECTION inputDirection(SnakeBody *body){
             break;
     }
 
+	flushinp();
     return dir;
 }
 

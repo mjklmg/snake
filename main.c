@@ -14,8 +14,8 @@
 // board 50x20
 #define WIN_START_Y 10
 #define WIN_START_X 10
-#define WIN_HEIGHT 22
-#define WIN_WIDHT 22
+#define WIN_HEIGHT 14
+#define WIN_WIDHT 14
 
 void freeGame(SnakeBody *body, Apple *apple){
 	SnakeSegment *segment = body->head;
@@ -31,6 +31,7 @@ void freeGame(SnakeBody *body, Apple *apple){
 
 int main(){
 
+	int points = 0;
 	// initilization of a snake
     SnakeBody *body = initializeSnake(TAIL_START_X, TAIL_START_Y, HEAD_START_X, HEAD_START_Y, RIGHT);
 	// init of an apple
@@ -40,18 +41,25 @@ int main(){
 	initscr();
 	keypad(stdscr, TRUE);
 	noecho(); //Don't echo keypresses
+	curs_set(0); //remove cursor highlight
 
 	WINDOW *win = initWindow(WIN_HEIGHT, WIN_WIDHT, WIN_START_Y, WIN_START_X);
 	nodelay(stdscr, true);
 
 	//game loop
-	while (touchedBorder(body, WIN_HEIGHT, WIN_WIDHT)==false){
+	while (!touchedBorder(body, WIN_HEIGHT, WIN_WIDHT) && !touchedSelf(body)){
 
 		clearWindow(win);
 
 		DIRECTION dir = inputDirection(body);
 
-		moveSnake(body, dir, didSnakeEat(&apple, body, WIN_HEIGHT, WIN_WIDHT));
+		_Bool snakeAte = didSnakeEat(&apple, body, WIN_HEIGHT, WIN_WIDHT);
+
+		moveSnake(body, dir, snakeAte);
+
+		if (snakeAte){
+			points++ ;
+		}
 
 		drawSnake(body, win);
 
@@ -61,6 +69,11 @@ int main(){
 
 		usleep(200000);
 	}	
+
+	nodelay(stdscr, false);
+	clear();
+	mvprintw(1,1, "Game Over\n Score: %d\n", points);
+	getch();
 
 	//feeing memory
 	freeGame(body, apple);

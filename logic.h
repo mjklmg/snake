@@ -19,6 +19,9 @@ void moveSnake(SnakeBody *body, DIRECTION inputDir, _Bool didSnakeEat);
 // checks if border was touched
 _Bool touchedBorder(SnakeBody *body, int boardHeight, int boardWidth);
 
+// check if snake touched itself lolololol
+_Bool touchedSelf(SnakeBody *body);
+
 // handling user input as direction
 DIRECTION inputDirection(SnakeBody *body);
 

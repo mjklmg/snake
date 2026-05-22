@@ -65,6 +65,30 @@ _Bool touchedBorder(SnakeBody *body, int boardHeight, int boardWidth ){
 	return false;
 }
 
+_Bool touchedSelf(SnakeBody *body){
+
+	int headX = body->head->posX;
+	int headY = body->head->posY;
+
+	SnakeSegment *current = body->head->next;
+
+	int currentX; 
+	int currentY;
+
+	while(current){
+
+		currentX = current->posX;
+		currentY = current->posY;
+
+		if (currentX == headX && currentY == headY){
+			return true;
+		}
+		current = current->next;
+	}
+
+	return false;
+}
+
 DIRECTION inputDirection(SnakeBody *body){
 
     int key = getch();

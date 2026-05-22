@@ -17,37 +17,6 @@
 #define WIN_HEIGHT 22
 #define WIN_WIDHT 22
 
-DIRECTION inputDirection(SnakeBody *body){
-
-    int key = getch();
-
-    DIRECTION dir = body->dir; // keep current direction
-
-    switch (key){
-        case KEY_LEFT:
-            if (isDirectionLegal(body, LEFT))
-                dir = LEFT;
-            break;
-
-        case KEY_RIGHT:
-            if (isDirectionLegal(body, RIGHT))
-                dir = RIGHT;
-            break;
-
-        case KEY_UP:
-            if (isDirectionLegal(body, UP))
-                dir = UP;
-            break;
-
-        case KEY_DOWN:
-            if (isDirectionLegal(body, DOWN))
-                dir = DOWN;
-            break;
-    }
-
-    return dir;
-}
-
 void freeGame(SnakeBody *body){
 	SnakeSegment *segment = body->head;
 
@@ -63,6 +32,8 @@ int main(){
 
 	// initilization of a snake
     SnakeBody *body = initializeSnake(TAIL_START_X, TAIL_START_Y, HEAD_START_X, HEAD_START_Y, RIGHT);
+	// init of an apple
+	Apple *apple = initApple(WIN_HEIGHT, WIN_WIDHT, body);
 
 	// initialization of a window
 	initscr();
@@ -82,6 +53,8 @@ int main(){
 		moveSnake(body, dir);
 
 		drawSnake(body, win);
+
+		drawApple(apple, win);
 
 		wrefresh(win);
 

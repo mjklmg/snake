@@ -1,5 +1,11 @@
 #include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+#include <ncurses.h>
+
 #include "snake.h"
+#include "logic.h"
+
 
 _Bool isDirectionLegal(SnakeBody *body, DIRECTION inputDir){
 
@@ -54,4 +60,87 @@ _Bool touchedBorder(SnakeBody *body, int boardHeight, int boardWidth ){
 		return true;
 	}
 	return false;
+}
+
+DIRECTION inputDirection(SnakeBody *body){
+
+    int key = getch();
+
+    DIRECTION dir = body->dir; // keep current direction
+
+    switch (key){
+        case KEY_LEFT:
+            if (isDirectionLegal(body, LEFT))
+                dir = LEFT;
+            break;
+
+        case KEY_RIGHT:
+            if (isDirectionLegal(body, RIGHT))
+                dir = RIGHT;
+            break;
+
+        case KEY_UP:
+            if (isDirectionLegal(body, UP))
+                dir = UP;
+            break;
+
+        case KEY_DOWN:
+            if (isDirectionLegal(body, DOWN))
+                dir = DOWN;
+            break;
+    }
+
+    return dir;
+}
+
+_Bool isAppleOnSnake(int appleX, int appleY, int snakeSegmentX, int snakeSegmentY ){
+	if (appleX == snakeSegmentX && appleY == snakeSegmentY){
+		return true;
+	}
+	return false;
+}
+
+Apple* initApple(int boardHeight, int boardWidth, SnakeBody *body){
+
+	srand(time(NULL));
+
+	Apple *apple = malloc(sizeof(Apple));
+
+	SnakeSegment *snakeSegment = body->head;
+
+	int snakeSegmentX;
+	int snakeSegmentY;
+
+	int appleX;
+	int appleY;
+
+	_Bool collision;
+// apples position initialization, checking if its coliding with snake
+	
+	do {
+// random generation of position, setting collision to false for now
+		appleX = rand() % (boardWidth-2) + 1;
+		appleY = rand() % (boardHeight-2) + 1;
+
+		snakeSegment = body->head;
+		collision = false;
+
+// validiating if those coords collide with snake, if so, we generate new ones with a while loop
+		while(snakeSegment){
+			snakeSegmentX = snakeSegment->posX;
+			snakeSegmentY = snakeSegment->posY;
+
+			snakeSegment = snakeSegment->next;
+
+			if (isAppleOnSnake(appleX, appleY, snakeSegmentX, snakeSegmentY)){
+				collision = true;
+			}
+		}
+
+	}while (collision);
+	
+	apple->posX = appleX;
+	apple->posY = appleY;
+
+	return apple;
 }

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ncurses.h>
+#include <time.h>
 
 #include "snake.h"
 #include "render.h"
@@ -29,7 +30,11 @@ void freeGame(SnakeBody *body, Apple *apple){
 	free(apple);
 }
 
+
+
 int main(){
+
+	srand(time(NULL));
 
 	int points = 0;
 	// initilization of a snake

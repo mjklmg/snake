@@ -1,11 +1,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
-#include <time.h>
 #include <ncurses.h>
 
 #include "snake.h"
 #include "logic.h"
-
 
 _Bool isDirectionLegal(SnakeBody *body, DIRECTION inputDir){
 
@@ -130,7 +128,6 @@ _Bool isAppleOnSnake(int appleX, int appleY, int snakeSegmentX, int snakeSegment
 
 Apple* initApple(int boardHeight, int boardWidth, SnakeBody *body){
 
-	srand(time(NULL));
 
 	Apple *apple = malloc(sizeof(Apple));
 
@@ -181,10 +178,12 @@ _Bool didSnakeEat(Apple **apple, SnakeBody *body, int boardHeight, int boardWidt
 	int appleX = (*apple)->posX;
 	int appleY = (*apple)->posY;
 
+
 	int snakeHeadX = body->head->posX;
 	int snakeHeadY = body->head->posY;
 
 	if (isAppleOnSnake(appleX, appleY, snakeHeadX, snakeHeadY)){
+		free(*apple); // freeing memory used for an old apple
 		*apple = initApple(boardHeight, boardWidth, body);
 		return true;
 	}
